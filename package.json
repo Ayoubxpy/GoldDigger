@@ -1,0 +1,13 @@
+{
+  "name": "golddigger",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm start",
+    "start": "node server.js"
+  },
+  "author": "ayoubxpy",
+  "license": "ISC"
+}
