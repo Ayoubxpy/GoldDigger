@@ -3,6 +3,8 @@ import path from 'node:path'
 import { sendResponse } from './sendResponse.js'
 import { getContentType } from './getContentType.js'
 import {getLiveGoldPrice} from './priceGenerator.js'
+import { handlePost } from '../handlers/handlePost.js'
+
 
 export async function serveStatic(req,res,baseDir) {
     console.log('The base directory is:', baseDir)
@@ -20,7 +22,13 @@ export async function serveStatic(req,res,baseDir) {
         const livePrice = getLiveGoldPrice()
         res.write(`data:${JSON.stringify({event: 'price-updates' , price: livePrice })}\n\n`) 
        },5000)
-      } else {
+      } else if (req.url === '/api/invest') {
+          if(req.method === 'POST') {
+            await handlePost(req,res)
+          } else {
+            res.statusCode = 405
+          }
+      }else {
         const content =  await fs.readFile(filePath)
         sendResponse(res,200,contentType,content)
       }
